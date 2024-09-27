@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { useTooltip, TOOLTIP_MESSAGES, TooltipText } from './utils/tooltip';
 
 const SidebarContainer = styled.aside`
   position: absolute;
@@ -66,31 +67,55 @@ const ModeImg = styled.img`
 `;
 
 const ModeSidebar = ({ modes, onSelectMode, isVisible }) => {
+  const {
+    tooltipVisible,
+    tooltipMessage,
+    tooltipPosition,
+    handleMouseOver,
+    handleMouseMove,
+    handleMouseOut,
+  } = useTooltip(TOOLTIP_MESSAGES);
+
   return (
-    <SidebarContainer $isVisible={isVisible}>
-      <ModeList>
-        {modes.map(mode => (
-          <ModeItem
-            key={mode.id}
-            onClick={() => onSelectMode(mode.id)}
-            $data-guideMode={mode.id}
-            data-tooltip-key="MODESELECT_TOOLTIP"
-          >
-            <ModeDiv>
-              <ModeH3>{mode.name}</ModeH3>
-              <ModeP>
-                <ModeImg
-                  src={mode.image}
-                  alt={`${mode.name} 이미지`}
-                  width="50"
-                  height="50"
-                />
-              </ModeP>
-            </ModeDiv>
-          </ModeItem>
-        ))}
-      </ModeList>
-    </SidebarContainer>
+    <>
+      <SidebarContainer $isVisible={isVisible}>
+        <ModeList>
+          {modes.map(mode => (
+            <ModeItem
+              key={mode.id}
+              onClick={() => onSelectMode(mode.id)}
+              $data-guideMode={mode.id}
+              data-tooltip-key="MODESELECT_TOOLTIP"
+              onMouseOver={handleMouseOver}
+              onMouseMove={handleMouseMove}
+              onMouseOut={handleMouseOut}
+            >
+              <ModeDiv>
+                <ModeH3>{mode.name}</ModeH3>
+                <ModeP>
+                  <ModeImg
+                    src={mode.image}
+                    alt={`${mode.name} 이미지`}
+                    width="50"
+                    height="50"
+                  />
+                </ModeP>
+              </ModeDiv>
+            </ModeItem>
+          ))}
+        </ModeList>
+      </SidebarContainer>
+      {tooltipVisible && (
+        <TooltipText
+          style={{
+            left: tooltipPosition.x,
+            top: tooltipPosition.y,
+          }}
+        >
+          {tooltipMessage}
+        </TooltipText>
+      )}
+    </>
   );
 };
 
