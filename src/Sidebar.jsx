@@ -40,7 +40,21 @@ const TooltipHomeButton = styled.button`
 
 const TooltipListButton = styled.button`
   ${commonButtonStyle};
-  background: url('/src/assets/img/nav_sprites.png') no-repeat -184px -80px;
+
+  background: ${({ $isSidebarVisible }) =>
+    $isSidebarVisible
+      ? "url('/src/assets/img/checked_sprites.png') -8px -3px no-repeat"
+      : "url('/src/assets/img/nav_sprites.png') -184px -80px no-repeat"};
+
+  opacity: ${({ $isSidebarVisible }) => ($isSidebarVisible ? 1 : 0.5)};
+
+  background-color: ${({ $isSidebarVisible }) =>
+    $isSidebarVisible ? 'rgb(255, 255, 255)' : ''};
+
+  &:hover {
+    background-color: ${({ $isSidebarVisible }) =>
+      $isSidebarVisible ? 'rgb(255, 255, 255)' : 'rgb(51, 50, 173)'};
+  }
 `;
 
 const TooltipGalleryButton = styled.button`
@@ -136,7 +150,10 @@ function Sidebar() {
       <SideNav>
         <SideDiv>
           <TooltipHomeButton onClick={handleHomeClick} />
-          <TooltipListButton onClick={handleModeButtonClick} />
+          <TooltipListButton
+            onClick={handleModeButtonClick}
+            $isSidebarVisible={isSidebarVisible}
+          />
           <TooltipGalleryButton onClick={handleGalleryClick} />
         </SideDiv>
         <SideDiv>
