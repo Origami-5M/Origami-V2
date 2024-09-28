@@ -95,6 +95,7 @@ const PlayGuide = styled.div`
   position: absolute;
   top: 39px;
   right: 57px;
+  z-index: 20;
   padding: 16px 20px;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.5);
@@ -144,8 +145,8 @@ const Play = () => {
 
   return (
     <MainContainer>
-      <CanvasComp />
       <SectionContainer>
+        <CanvasComp />
         {mode && <GuideSlide />}
         <PlayGuide>
           <PlayGuideP>
