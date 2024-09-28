@@ -1,8 +1,10 @@
 import styled, { css } from 'styled-components';
-import Sidebar from './Sidebar';
-import { useTooltip, TOOLTIP_MESSAGES, TooltipText } from './utils/tooltip';
-import GuideSlide from './GuideSlide';
 import { useSearchParams } from 'react-router-dom';
+import { useTooltip, TOOLTIP_MESSAGES, TooltipText } from './utils/tooltip';
+
+import Sidebar from './Sidebar';
+import GuideSlide from './GuideSlide';
+import CanvasComp from './components/CanvasComp';
 
 const commonButtonStyle = css`
   background-color: #888;
@@ -142,6 +144,7 @@ const Play = () => {
 
   return (
     <MainContainer>
+      <CanvasComp />
       <SectionContainer>
         {mode && <GuideSlide />}
         <PlayGuide>
