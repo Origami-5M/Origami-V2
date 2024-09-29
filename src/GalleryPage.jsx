@@ -3,7 +3,9 @@ import { fetchAllUserDocuments } from './utils/getUserService';
 import GalleryCard from './GalleryCard';
 import styled from 'styled-components';
 import Sidebar from './Sidebar';
+import GalleryModal from './GalleryModal';
 import arrowImage from './assets/img/arrow.png';
+import { useSearchParams } from 'react-router-dom';
 
 const Main = styled.main`
   display: flex;
@@ -81,10 +83,27 @@ const NextButton = styled.button`
 `;
 
 const Gallery = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [modalOpen, setModalOpen] = useState(false);
   const [allItems, setAllItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
+
+  const changeOpenModal = id => {
+    setModalOpen(true);
+    setSearchParams({ id });
+  };
+
+  const changeCloseModal = () => {
+    setModalOpen(false);
+
+    const newSearchParams = new URLSearchParams(searchParams);
+    console.log('newSearchParams', newSearchParams);
+    newSearchParams.delete('id');
+
+    setSearchParams(newSearchParams);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,7 +112,7 @@ const Gallery = () => {
         setAllItems(items);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('데이터를 가져오는 중 에러가 발생했습니다:', error);
         setLoading(false);
       }
     };
@@ -128,9 +147,14 @@ const Gallery = () => {
             </PrevButton>
             <GalleryListWrap>
               {currentItems.map(data => (
-                <GalleryCard key={data.id} data={data} />
+                <GalleryCard
+                  key={data.id}
+                  data={data}
+                  onClick={changeOpenModal}
+                />
               ))}
             </GalleryListWrap>
+            {modalOpen && <GalleryModal onClick={changeCloseModal} />}
             <NextButton
               onClick={handleNextPage}
               disabled={currentPage === totalPages}

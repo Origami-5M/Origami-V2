@@ -31,11 +31,11 @@ const GalleryCardText = styled.h3`
   text-align: center;
 `;
 
-const GalleryCard = ({ data }) => {
-  const { thumbnail, nickname } = data;
+const GalleryCard = ({ data, onClick }) => {
+  const { thumbnail, nickname, id } = data;
 
   return (
-    <GalleryCardWrap>
+    <GalleryCardWrap onClick={() => onClick(id)}>
       <GalleryCardList>
         <GalleryCardImg>
           <img src={thumbnail} alt="완성된 종이접기 스냅샷" />
@@ -55,6 +55,7 @@ GalleryCard.propTypes = {
       PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     ).isRequired,
   }).isRequired,
+  onClick: PropTypes.func,
 };
 
 export default GalleryCard;
